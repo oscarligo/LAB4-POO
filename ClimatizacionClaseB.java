@@ -1,7 +1,10 @@
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.Date;
+import java.util.List;
 
 public class ClimatizacionClaseB implements controlTemperatura, controlVentilacion, controlCalefaccion, controlAire {
+    private int temperaturaExterior;
     private boolean sistemaEncendido;
     private int temperaturaActual;
     private int nivelVentilacion;
@@ -11,8 +14,13 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     private int nivelCalefaccionHabitaculo;
     private boolean calefaccionRapidaActivada;
     private boolean desempaniadorActivado;
+    private List<String> historialMantenimiento;
+    private int ContadorMantenimiento;
+
+
 
     public ClimatizacionClaseB() {
+        this.temperaturaExterior = 20;
         this.sistemaEncendido = false;
         this.temperaturaActual = 20;
         this.nivelVentilacion = 0;
@@ -21,12 +29,16 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
         this.nivelCalefaccionAsientos = 0;
         this.calefaccionRapidaActivada = false;
         this.desempaniadorActivado = false;
+        this.historialMantenimiento = new ArrayList<String>();
+        this.nivelCalefaccionHabitaculo = 0;
+
     }
 
     //Métodos de controlTemperatura
     @Override
     public void encender() {
         this.sistemaEncendido = true;
+        this.ContadorMantenimiento += 1;
     }
 
     @Override
@@ -52,6 +64,8 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
             this.nivelVentilacion = nivel;
         }
     }
+
+
 
     @Override
     public void activarModoEco() {
@@ -97,25 +111,50 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     public void apagarDesempaniador() {
         this.desempaniadorActivado = false;
     }
-
-
-
-
-
     
     //Métodos de Rompich
     @Override
     public void activarModoAutomatico() {
-        System.out.println("PENDIENTE");
+        if(this.temperaturaExterior < 10){
+            this.ajustarTemperatura(28);
+
+
+        }else if(this.temperaturaExterior > 28){
+            this.ajustarTemperatura(16);
+        }
     }
 
     @Override
-    public void ajustarDireccionVentilacion(String direccion) {
-        System.out.println("PENDIENTE");
+    public void DireccionVentilacion(String direccion) {
+        this.direccionVentilacion = direccion;
+
     }
 
     @Override
-    public void ajustarDistribucionAire(String distribucion) {
-        System.out.println("PENDIENTE");
+    public String programarMantenimiento(String fecha) {
+        historialMantenimiento.add(fecha);
+        return "Mantenimiento programado para la fecha: " + fecha;
+    } 
+
+
+    @Override
+    public String avisoDeMantenimiento(String fechaActual) {
+        for (String mantenimiento : historialMantenimiento) {
+            if (fechaActual.equals(mantenimiento)) {
+                return "Hay un mantenimiento programado hoy: " + fechaActual;
+            }
+        }
+
+        if (ContadorMantenimiento >= 30) {
+            return "Es necesario programar un mantenimiento por el uso excesivo del sistema de climatización";
+        }
+        
+        
     }
+
+
+
+
+
+
 }
