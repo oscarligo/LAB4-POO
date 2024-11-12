@@ -1,9 +1,8 @@
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Date;
-import java.util.List;
+import java.util.ArrayList;
 
-public class ClimatizacionClaseB implements controlTemperatura, controlVentilacion, controlCalefaccion, controlAire {
+public class ClimatizacionClaseB implements controlTemperatura, controlVentilacion, controlCalefaccion, controlAire, controlMantenimiento  {
     private int temperaturaExterior;
     private boolean sistemaEncendido;
     private int temperaturaActual;
@@ -14,7 +13,7 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     private int nivelCalefaccionHabitaculo;
     private boolean calefaccionRapidaActivada;
     private boolean desempaniadorActivado;
-    private List<String> historialMantenimiento;
+    private ArrayList<String> historialMantenimiento;
     private int ContadorMantenimiento;
 
 
@@ -47,9 +46,14 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     }
 
     @Override
-    public void ajustarTemperatura(int temperatura) {
+    public String ajustarTemperatura(int temperatura) {
         if (temperatura >= 16 && temperatura <= 28) {
             this.temperaturaActual = temperatura;
+            return "Temperatura ajustada a " + temperatura + " grados";
+        }
+
+        else {
+            return "La temperatura debe estar entre 16 y 28 grados";
         }
     }
 
@@ -65,7 +69,16 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
         }
     }
 
+    @Override
+    public void activarModoAutomatico() {
+        if(this.temperaturaExterior < 10){
+            this.ajustarTemperatura(28);
 
+
+        }else if(this.temperaturaExterior > 28){
+            this.ajustarTemperatura(16);
+        }
+    }
 
     @Override
     public void activarModoEco() {
@@ -95,10 +108,10 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                nivelCalefaccionHabitaculo = 1; // Vuelve al nivel normal después de 5 minutos (300000 ms)
+                nivelCalefaccionHabitaculo = 1;
                 calefaccionRapidaActivada = false;
             }
-        }, 300000); // 300000 ms = 5 minutos
+        }, 300000);
     }
 
     //Métodos de controlAire
@@ -113,19 +126,9 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     }
     
     //Métodos de Rompich
-    @Override
-    public void activarModoAutomatico() {
-        if(this.temperaturaExterior < 10){
-            this.ajustarTemperatura(28);
-
-
-        }else if(this.temperaturaExterior > 28){
-            this.ajustarTemperatura(16);
-        }
-    }
 
     @Override
-    public void DireccionVentilacion(String direccion) {
+    public void ajustarDireccionVentilacion(String direccion) {
         this.direccionVentilacion = direccion;
 
     }
@@ -137,8 +140,7 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     } 
 
 
-    @Override
-    public String avisoDeMantenimiento(String fechaActual) {
+    public String avisoDeMantenimiento (String fechaActual) {
         for (String mantenimiento : historialMantenimiento) {
             if (fechaActual.equals(mantenimiento)) {
                 return "Hay un mantenimiento programado hoy: " + fechaActual;
@@ -147,14 +149,16 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
 
         if (ContadorMantenimiento >= 30) {
             return "Es necesario programar un mantenimiento por el uso excesivo del sistema de climatización";
-        }
-        
-        
+        }    
+        return "No hay mantenimientos programados para hoy";
     }
 
 
+    public void ajustarDistribucionAire(String distribucion) {
+        System.out.println("PENDIENTE");
+    } 
 
-
-
-
+    public boolean getSistemaEncendido() {
+        return this.sistemaEncendido;
+    }
 }

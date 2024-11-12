@@ -1,4 +1,4 @@
 public interface controlMantenimiento {
-    void mostrarHistorialMantenimiento();
-    void programaMantenimiento(); 
+    String programarMantenimiento(String fecha); 
+    String avisoDeMantenimiento(String fechaActual);
 }
