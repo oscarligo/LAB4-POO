@@ -140,6 +140,8 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     } 
 
 
+
+    @Override
     public String avisoDeMantenimiento (String fechaActual) {
         for (String mantenimiento : historialMantenimiento) {
             if (fechaActual.equals(mantenimiento)) {
@@ -154,10 +156,12 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
     }
 
 
+    @Override
     public void ajustarDistribucionAire(String distribucion) {
         System.out.println("PENDIENTE");
     } 
 
+    @Override
     public boolean getSistemaEncendido() {
         return this.sistemaEncendido;
     }
