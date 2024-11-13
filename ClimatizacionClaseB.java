@@ -157,11 +157,6 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
 
 
     @Override
-    public void ajustarDistribucionAire(String distribucion) {
-        System.out.println("PENDIENTE");
-    } 
-
-    @Override
     public boolean getSistemaEncendido() {
         return this.sistemaEncendido;
     }
