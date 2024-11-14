@@ -1,4 +1,7 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,7 +11,7 @@ public class Main {
 
         String opcion = "";
         
-        while (!opcion.equals("7")) {
+        while (!opcion.equals("8")) {
 
             // Menú de opciones
             System.out.println("\n\n================== Sistema de Climatización ====================\n");
@@ -163,7 +166,7 @@ public class Main {
                             case "3":
                                 System.out.print("\nIngrese la distribución del aire deseada: ");
                                 String distribucion = scanner.nextLine();
-                                sistemaClimatizacion.ajustarDistribucionAire(distribucion);
+                                
                                 break;
 
                             default:
@@ -178,16 +181,63 @@ public class Main {
 
                     break;
 
-                //PENDIENTE
+                
                 case "7":
-                    System.out.println("Opciones de mantenimiento");
+            
+                    System.out.println("\nOpciones de mantenimiento\n");
 
+                    System.out.println("1. Programar mantenimiento");
+                    System.out.println("2. Ver mantenimientos programados");
+                    System.out.println("3. Avisos de mantenimiento");
+
+                    System.out.print("\nIngrese el número de la opción deseada: ");
+                    String opcionMant = scanner.nextLine();
+
+
+                    switch (opcionMant) {
+                        
+                        case "1":
+
+                            System.out.print("\nIngrese la fecha de mantenimiento: ");
+                            String fecha = scanner.nextLine();
+
+                            sistemaClimatizacion.programarMantenimiento(fecha);
+
+                            break;
+                        case "2":
+
+                            for (String mantenimiento : sistemaClimatizacion.getHistorialMantenimiento()) {
+                                System.out.println( "Hay un mantenimiento programado para: " + mantenimiento);
+                            }
+                            
+
+                            break;
+                        case "3":
+
+                            Date fechaActual = new Date();
+                            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+                            String fechaActualString = formato.format(fechaActual);
+
+                            System.out.println(sistemaClimatizacion.avisoDeMantenimiento(fechaActualString));
+
+                            break;
+
+                        default:
+                            System.out.println("Opción no válida");
+                            break;
+                    }
+
+                    break;
+
+                case "8":
+                    
                     break;
 
                 default:
                     System.out.println("Opción no válida");
 
                     break;
+            
             }
         }
     }    

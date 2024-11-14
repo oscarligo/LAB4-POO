@@ -19,19 +19,34 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
 
 
     public ClimatizacionClaseB() {
-        this.temperaturaExterior = 20;
+        this.temperaturaExterior = 0;
         this.sistemaEncendido = false;
-        this.temperaturaActual = 20;
-        this.nivelVentilacion = 0;
-        this.direccionVentilacion = "parabrisas";
+        this.temperaturaActual = 22;
+        this.nivelVentilacion = 1;
+        this.direccionVentilacion = "Frontal";
         this.modoEcoActivado = false;
         this.nivelCalefaccionAsientos = 0;
+        this.nivelCalefaccionHabitaculo = 1;
         this.calefaccionRapidaActivada = false;
         this.desempaniadorActivado = false;
         this.historialMantenimiento = new ArrayList<String>();
-        this.nivelCalefaccionHabitaculo = 0;
+        this.ContadorMantenimiento = 0;
 
     }
+
+    
+
+    public ArrayList<String> getHistorialMantenimiento() {
+        return historialMantenimiento;
+    }
+
+
+
+    public void setHistorialMantenimiento(ArrayList<String> historialMantenimiento) {
+        this.historialMantenimiento = historialMantenimiento;
+    }
+
+
 
     //Métodos de controlTemperatura
     @Override
@@ -155,8 +170,6 @@ public class ClimatizacionClaseB implements controlTemperatura, controlVentilaci
         return "No hay mantenimientos programados para hoy";
     }
 
-
-    @Override
     public boolean getSistemaEncendido() {
         return this.sistemaEncendido;
     }
